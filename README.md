@@ -1,5 +1,3 @@
-# Домашнее задание к занятию  «Защита хоста» "Макарцев Александр Владимирович"
-
 ### Задание 1
 
 1. Установите **eCryptfs**.
@@ -14,11 +12,16 @@
 ```
 sudo apt install ecryptfs-utils
 ```
-https://ibb.co/JFkbvgZd
+
 Создание пользователя cryptouser
 ```
 sudo adduser --encrypt-home   cryptouser
-https://ibb.co/B2yq2Tcq
+```
+!https://ibb.co/JFkbvgZd)
+
+!https://ibb.co/B2yq2Tcq)
+
+
 ### Задание 2
 
 1. Установите поддержку **LUKS**.
@@ -32,16 +35,24 @@ https://ibb.co/B2yq2Tcq
 ```
 apt install gparted cryptsetup
 ```
+![https://ibb.co/LhpWpzDr)
+
 Добавляем через Virtual Box диск на 100 MiB
-https://ibb.co/LhpWpzDr
+
 Подготавливаем раздел (тип luks2)
 ```
 sudo cryptsetup -y -v --type luks2 luksFormat /dev/sdb
 ```
+
+!https://ibb.co/NMdV2GG)
+
 Открываем устройство /dev/sdb и задаем ему имя cryptodisk
 ```
 sudo cryptsetup luksOpen /dev/sdb cryptodisk
 ```
+
+
+
 Форматируем раздел
 ```
 sudo dd if=/dev/zero of=/dev/mapper/cryptodisk
@@ -50,11 +61,14 @@ sudo dd if=/dev/zero of=/dev/mapper/cryptodisk
 ```
 sudo mkfs.ext4 /dev/mapper/cryptodisk
 ```
+
+
+
 Монтируем открытый раздел
 ```
 mkdir .secret
 ```
-https://ibb.co/NMdV2GG
+
 ```
 sudo mount /dev/mapper/cryptodisk .secret/
 ```
