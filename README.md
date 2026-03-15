@@ -1,16 +1,69 @@
-Задание 1
-Установите eCryptfs.
-Добавьте пользователя cryptouser.
-Зашифруйте домашний каталог пользователя с помощью eCryptfs.
-В качестве ответа пришлите снимки экрана домашнего каталога пользователя с исходными и зашифрованными данными.
-# Решение
-# Установка eCryptfs
+# Домашнее задание к занятию  «Защита хоста» "Макарцев Александр Владимирович"
+
+### Задание 1
+
+1. Установите **eCryptfs**.
+2. Добавьте пользователя cryptouser.
+3. Зашифруйте домашний каталог пользователя с помощью eCryptfs.
+
+
+*В качестве ответа  пришлите снимки экрана домашнего каталога пользователя с исходными и зашифрованными данными.*
+
+#### Решение
+Установка eCryptfs
+```
 sudo apt install ecryptfs-utils
+```
+https://ibb.co/JFkbvgZd
 Создание пользователя cryptouser
-https://sun9-17.userapi.com/s/v1/ig2/Q8XLrm5UbnhhtwPAXbWUwFq4fzxlJDqlfeSCASJ_9UIZ816Ss_gKs5u5jGmgx6L2h3m_YDZnHMLC-q8PXjqZ1I26.jpg?quality=95&as=32x23,48x34,72x52,108x77,160x115,240x172,360x258,480x344,540x387,640x458,720x516,828x593&from=bu&cs=828x0
+```
 sudo adduser --encrypt-home   cryptouser
-Задание 2
-Установите поддержку LUKS.
-Создайте небольшой раздел, например, 100 Мб.
-Зашифруйте созданный раздел с помощью LUKS.
-В качестве ответа пришлите снимки экрана с поэтапным выполнением задания.
+https://ibb.co/B2yq2Tcq
+### Задание 2
+
+1. Установите поддержку **LUKS**.
+2. Создайте небольшой раздел, например, 100 Мб.
+3. Зашифруйте созданный раздел с помощью LUKS.
+
+*В качестве ответа пришлите снимки экрана с поэтапным выполнением задания.*
+
+#### Решение
+Устанавливаем gparted cryptsetup (LUKS)
+```
+apt install gparted cryptsetup
+```
+Добавляем через Virtual Box диск на 100 MiB
+https://ibb.co/LhpWpzDr
+Подготавливаем раздел (тип luks2)
+```
+sudo cryptsetup -y -v --type luks2 luksFormat /dev/sdb
+```
+Открываем устройство /dev/sdb и задаем ему имя cryptodisk
+```
+sudo cryptsetup luksOpen /dev/sdb cryptodisk
+```
+Форматируем раздел
+```
+sudo dd if=/dev/zero of=/dev/mapper/cryptodisk
+```
+
+```
+sudo mkfs.ext4 /dev/mapper/cryptodisk
+```
+Монтируем открытый раздел
+```
+mkdir .secret
+```
+https://ibb.co/NMdV2GG
+```
+sudo mount /dev/mapper/cryptodisk .secret/
+```
+
+Завершение работы
+```
+sudo umount .secret
+```
+
+```
+sudo cryptsetup luksClose cryptodisk
+```
